@@ -1,0 +1,19 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rincón Matero 🧉</title>
+<style>
+body{margin:0;background:#f7f0e3;color:#4a3527;font-family:Arial,sans-serif}header{background:#536b3f;color:#fff;text-align:center;padding:32px 15px}h1{margin:0;font-size:38px}.sub{margin:8px}main{max-width:720px;margin:auto;padding:20px 14px}.box{background:#fffdf8;border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:0 4px 18px #0001}label{display:block;font-weight:bold;margin:12px 0 6px}input,textarea{width:100%;box-sizing:border-box;padding:13px;border:1px solid #d8cbb8;border-radius:12px;font-size:16px}textarea{min-height:120px;resize:vertical}button{width:100%;padding:14px;margin-top:14px;border:0;border-radius:12px;background:#536b3f;color:white;font-size:17px;font-weight:bold}.mensaje{margin-top:12px;padding:10px;text-align:center;border-radius:10px}.frase{background:white;border-left:5px solid #536b3f;border-radius:12px;padding:15px;margin:12px 0}.frase p{font-size:19px;margin:0 0 8px}.autor{font-size:14px;opacity:.7}.vacio{text-align:center;opacity:.65;padding:18px}footer{text-align:center;padding:20px;opacity:.6}
+</style></head><body>
+<header><h1>🧉 Rincón Matero</h1><p class="sub">Frases, mates y momentos para compartir.</p></header>
+<main><section class="box"><h2>✍️ Publicá tu frase</h2>
+<label>Tu nombre</label><input id="nombre" maxlength="40" placeholder="Ej.: Lauti">
+<label>Tu frase</label><textarea id="frase" maxlength="300" placeholder="Escribí tu frase matera..."></textarea>
+<button onclick="publicar()">🧉 Publicar frase</button><div id="mensaje"></div></section>
+<section class="box"><h2>💬 Frases publicadas</h2><div id="lista" class="vacio">Todavía no hay frases. ¡Publicá la primera!</div></section></main>
+<footer>Rincón Matero 🧉</footer>
+<script>
+const KEY="rincon_matero_v2";
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function leer(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}}
+function mostrar(){let d=leer(),l=document.getElementById("lista");if(!d.length){l.className="vacio";l.textContent="Todavía no hay frases. ¡Publicá la primera!";return}l.className="";l.innerHTML=d.map(x=>'<article class="frase"><p>“'+esc(x.frase)+'”</p><div class="autor">— '+esc(x.nombre||"Anónimo")+"</div></article>").join("")}
+function publicar(){let n=document.getElementById("nombre").value.trim(),f=document.getElementById("frase").value.trim(),m=document.getElementById("mensaje");if(!f){m.textContent="Escribí una frase antes de publicar.";m.style.background="#f7dfdc";return}let d=leer();d.unshift({nombre:n||"Anónimo",frase:f});localStorage.setItem(KEY,JSON.stringify(d));document.getElementById("frase").value="";m.textContent="¡Frase publicada! 🧉";m.style.background="#e8f2df";mostrar()}
+mostrar();
+</script></body></html>
